@@ -1,0 +1,2738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duolink IT Solutions</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- AOS CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #C31432; /* Royal Red */
+            --secondary-color: #0F5FD6; /* Royal Blue */
+            --accent-color: #240b36; /* Deep Purple for accents */
+            --gradient-start: #C31432;
+            --gradient-middle: #240b36;
+            --gradient-end: #0F5FD6;
+            --text-color: #333;
+            --light-bg: #f8f9fa;
+            --header-bg: rgba(195, 20, 50, 0.95);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background-color: var(--light-bg);
+        }
+        
+        .navbar {
+            background: linear-gradient(to right, 
+                var(--gradient-start),
+                var(--gradient-middle),
+                var(--gradient-end));
+            backdrop-filter: blur(10px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 1.5rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            transform: translateY(0);
+            opacity: 1;
+            left: 0;
+        }
+
+        .navbar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                rgba(195, 20, 50, 0.95),
+                rgba(36, 11, 54, 0.95),
+                rgba(15, 95, 214, 0.95));
+            z-index: -1;
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .navbar.scrolled {
+            background: linear-gradient(to right, 
+                var(--gradient-start),
+                var(--gradient-middle),
+                var(--gradient-end));
+            padding: 1rem 0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar.navbar-hidden {
+            transform: translateY(-100%);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .navbar.navbar-visible {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .navbar.navbar-floating {
+            background: linear-gradient(to right, 
+                var(--gradient-start),
+                var(--gradient-middle),
+                var(--gradient-end));
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        .navbar-floating .navbar-brand {
+            font-size: 1.2rem;
+            transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: brandShrink 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes brandShrink {
+            0% {
+                font-size: 1.5rem;
+                opacity: 0;
+            }
+            100% {
+                font-size: 1.2rem;
+                opacity: 1;
+            }
+        }
+
+        .navbar-floating .nav-link {
+            padding: 0.5rem 1rem !important;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            animation: linkAdjust 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        @keyframes linkAdjust {
+            0% {
+                padding: 0.5rem 1.5rem !important;
+                font-size: 1rem;
+                opacity: 0;
+            }
+            100% {
+                padding: 0.5rem 1rem !important;
+                font-size: 0.9rem;
+                opacity: 1;
+            }
+        }
+
+        .navbar-floating .nav-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .navbar .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: white;
+            transition: all 0.3s ease;
+            padding: 0.5rem 0;
+            position: relative;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .navbar-brand::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: white;
+            transition: width 0.3s ease;
+        }
+
+        .navbar-brand:hover::after {
+            width: 100%;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white !important;
+            font-weight: 500;
+            padding: 0.5rem 1rem !important;
+            margin: 0 0.25rem;
+            transition: all 0.3s ease;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            overflow: hidden;
+            z-index: 1;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            transition: height 0.3s ease;
+            z-index: -1;
+            border-radius: 4px;
+        }
+
+        .nav-link:hover::before {
+            height: 100%;
+        }
+
+        .nav-link:hover {
+            transform: translateY(-2px);
+            color: #ffffff !important;
+        }
+
+        .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .hero-section {
+            padding: 8rem 0 6rem;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, 
+                rgba(195, 20, 50, 0.9),
+                rgba(36, 11, 54, 0.9),
+                rgba(15, 95, 214, 0.9)
+            );
+            animation: gradientShift 8s ease infinite;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .hero-rings {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: pulse 3s ease-out infinite;
+        }
+
+        .ring:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            animation-delay: 0s;
+        }
+
+        .ring:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            animation-delay: 0.5s;
+        }
+
+        .ring:nth-child(3) {
+            width: 400px;
+            height: 400px;
+            animation-delay: 1s;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.5;
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.2);
+                opacity: 0.2;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0.5;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            padding: 2rem 0;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(45deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInUp 1s ease-out;
+            position: relative;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+            max-width: 600px;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .company-name {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            overflow: visible;
+            padding: 0.5rem 0;
+            min-width: 400px;
+            perspective: 1000px;
+        }
+
+        .company-name .main-text {
+            display: inline-block;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-style: preserve-3d;
+        }
+
+        .company-name .main-text span {
+            display: block;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            line-height: 1.2;
+            position: relative;
+            transform-origin: left center;
+        }
+
+        .company-name:hover .main-text span:first-child {
+            transform: rotateX(30deg) translateZ(20px);
+            color: var(--gradient-start);
+        }
+
+        .company-name:hover .main-text span:last-child {
+            transform: rotateX(-30deg) translateZ(20px);
+            color: var(--gradient-end);
+        }
+
+        .company-name .hover-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0) rotate(-15deg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            background: rgba(30, 58, 138, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(5px);
+        }
+
+        .company-name:hover .hover-text {
+            transform: translate(-50%, -50%) scale(1) rotate(0deg);
+            animation: pulseGlow 2s infinite;
+        }
+
+        @keyframes pulseGlow {
+            0% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+                           0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.7),
+                           0 0 30px rgba(255, 255, 255, 0.5);
+            }
+            100% {
+                box-shadow: 0 0 5px rgba(255, 255, 255, 0.5),
+                           0 0 10px rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        .company-name .hover-text span {
+            display: inline-block;
+            margin: 0 0.5rem;
+            position: relative;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .company-name:hover .hover-text span {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .company-name .hover-text span:nth-child(1) { transition-delay: 0.1s; }
+        .company-name .hover-text span:nth-child(2) { transition-delay: 0.2s; }
+        .company-name .hover-text span:nth-child(3) { transition-delay: 0.3s; }
+
+        .company-name .hover-text span::after {
+            content: '|';
+            position: absolute;
+            right: -0.5rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .company-name .hover-text span:last-child::after {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .company-name {
+                font-size: 1.5rem;
+            }
+            
+            .company-name .hover-text {
+                font-size: 1rem;
+            }
+
+            .company-name:hover .main-text span:first-child {
+                transform: translateX(-10px);
+            }
+
+            .company-name:hover .main-text span:last-child {
+                transform: translateX(10px);
+            }
+        }
+
+        .hero-image {
+            position: relative;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .cta-button {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-middle));
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            animation: fadeInUp 1s ease-out 0.6s backwards;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .cta-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::before {
+            left: 100%;
+        }
+
+        .cta-button:hover {
+            background: linear-gradient(to right, var(--gradient-middle), var(--gradient-end));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            transition: all 0.3s ease;
+        }
+
+        .stats-section {
+            background: linear-gradient(to right, 
+                var(--gradient-start),
+                var(--gradient-middle),
+                var(--gradient-end));
+            color: white;
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            background: linear-gradient(to right, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .product-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 1;
+        }
+
+        .product-card:hover::before {
+            opacity: 0.05;
+        }
+
+        .product-image {
+            position: relative;
+            overflow: hidden;
+            padding-top: 66.67%; /* 3:2 Aspect Ratio */
+        }
+
+        .product-image img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.7));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            display: flex;
+            align-items: flex-end;
+            padding: 20px;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .product-content {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            z-index: 2;
+        }
+
+        .product-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-color);
+            transition: color 0.3s ease;
+        }
+
+        .product-card:hover .product-title {
+            color: var(--primary-color);
+        }
+
+        .product-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            flex-grow: 1;
+        }
+
+        .product-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px;
+        }
+
+        .product-features li {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .product-features li i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-size: 0.8rem;
+        }
+
+        .product-button {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-middle));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .product-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+            z-index: -1;
+        }
+
+        .product-button:hover::before {
+            left: 100%;
+        }
+
+        .product-button:hover {
+            background: linear-gradient(to right, var(--gradient-middle), var(--gradient-end));
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .product-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: var(--secondary-color);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            z-index: 2;
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .product-card:hover .product-badge {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .about-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .about-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(to right, 
+                var(--gradient-start),
+                var(--gradient-middle),
+                var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            position: relative;
+        }
+
+        .about-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: var(--secondary-color);
+            animation: slideIn 1s ease-out 0.5s backwards;
+        }
+
+        .about-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-color);
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .about-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        }
+
+        .about-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+        }
+
+        @keyframes slideIn {
+            from {
+                width: 0;
+                opacity: 0;
+            }
+            to {
+                width: 100px;
+                opacity: 1;
+            }
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 1200px) {
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .hero-section {
+                padding: 6rem 0 4rem;
+                text-align: center;
+            }
+            
+            .hero-content {
+                margin-bottom: 3rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-subtitle {
+                margin: 0 auto 2rem;
+            }
+            
+            .hero-image {
+                padding: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar-floating {
+                width: 95%;
+                padding: 0.5rem 1rem;
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                animation: floatInMobile 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            }
+
+            @keyframes floatInMobile {
+                0% {
+                    transform: translate(-50%, -100%);
+                    opacity: 0;
+                    width: 100%;
+                    border-radius: 0;
+                    padding: 0.75rem 0;
+                }
+                100% {
+                    transform: translate(-50%, 0);
+                    opacity: 1;
+                    width: 95%;
+                    border-radius: 25px;
+                    padding: 0.5rem 1rem;
+                }
+            }
+            
+            .navbar-floating .navbar-brand {
+                font-size: 1rem;
+                transition: font-size 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                animation: brandShrinkMobile 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            }
+
+            @keyframes brandShrinkMobile {
+                0% {
+                    font-size: 1.3rem;
+                    opacity: 0;
+                }
+                100% {
+                    font-size: 1rem;
+                    opacity: 1;
+                }
+            }
+            
+            .navbar-floating .nav-link {
+                padding: 0.5rem 0.75rem !important;
+                font-size: 0.9rem;
+                transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+                animation: linkAdjustMobile 0.6s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            }
+
+            @keyframes linkAdjustMobile {
+                0% {
+                    padding: 0.5rem 1rem !important;
+                    font-size: 1rem;
+                    opacity: 0;
+                }
+                100% {
+                    padding: 0.5rem 0.75rem !important;
+                    font-size: 0.9rem;
+                    opacity: 1;
+                }
+            }
+            
+            .hero-section {
+                padding: 5rem 0 3rem;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 1rem;
+            }
+
+            .company-name {
+                font-size: 1.5rem;
+            }
+            
+            .company-name .hover-text {
+                font-size: 1rem;
+                padding: 0.3rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .hero-section {
+                padding: 4rem 0 2rem;
+            }
+            
+            .hero-title {
+                font-size: 1.8rem;
+            }
+            
+            .hero-subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .cta-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Mobile Menu Adjustments */
+        @media (max-width: 991px) {
+            .navbar {
+                padding: 1rem;
+                background: linear-gradient(to right, 
+                    var(--gradient-start),
+                    var(--gradient-middle),
+                    var(--gradient-end));
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 1000;
+                transform: none !important;
+                transition: none;
+                opacity: 1 !important;
+            }
+
+            .navbar.scrolled,
+            .navbar.navbar-floating,
+            .navbar.navbar-hidden,
+            .navbar.navbar-visible {
+                transform: none !important;
+                padding: 1rem;
+                background: linear-gradient(to right, 
+                    var(--gradient-start),
+                    var(--gradient-middle),
+                    var(--gradient-end));
+                box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            }
+
+            .navbar-collapse {
+                background: rgba(0, 0, 0, 0.2);
+                backdrop-filter: blur(10px);
+                padding: 1rem;
+                border-radius: 10px;
+                margin-top: 1rem;
+                border: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .navbar-brand {
+                font-size: 1.3rem;
+            }
+
+        .navbar-toggler {
+            border: none;
+            padding: 0.5rem;
+                color: white;
+        }
+
+        .navbar-toggler:focus {
+            box-shadow: none;
+                outline: none;
+            }
+
+            .navbar-toggler-icon {
+                background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 1)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+            }
+
+            .nav-link {
+                padding: 0.8rem 1.2rem !important;
+                text-align: center;
+                margin: 0.2rem 0;
+                border-radius: 5px;
+                transition: all 0.3s ease;
+            }
+
+            .nav-link:hover {
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(5px);
+            }
+
+            .navbar-nav {
+            margin-top: 1rem;
+                margin-bottom: 0.5rem;
+            }
+
+            /* Adjust hero section padding to account for fixed navbar */
+            .hero-section {
+                padding-top: calc(4rem + 60px);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .navbar {
+                padding: 0.8rem;
+            }
+
+            .navbar.scrolled,
+            .navbar.navbar-floating {
+                padding: 0.8rem;
+            }
+
+            .navbar-brand {
+                font-size: 1.2rem;
+            }
+
+            .navbar-collapse {
+                margin-top: 0.8rem;
+                padding: 0.8rem;
+            }
+
+            .nav-link {
+                padding: 0.6rem 1rem !important;
+                font-size: 0.9rem;
+            }
+
+            /* Adjust hero section padding for smaller devices */
+            .hero-section {
+                padding-top: calc(3rem + 56px);
+            }
+        }
+
+        /* Services Section Enhancements */
+        .services-section {
+            position: relative;
+            overflow: hidden;
+            padding-top: 180px;
+            padding-bottom: 100px;
+            scroll-margin-top: 180px;
+            margin-top: -40px;
+        }
+
+        #services {
+            scroll-margin-top: 180px;
+            display: block;
+        }
+
+        .services-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(26,35,126,0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s ease;
+        }
+
+        .service-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .service-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            transition: color 0.3s ease;
+        }
+
+        .service-card:hover .service-title {
+            color: var(--secondary-color);
+        }
+
+        .service-description {
+            color: var(--text-color);
+            margin-bottom: 0;
+            line-height: 1.6;
+        }
+
+        /* Contact Section Enhancements */
+        .contact-section {
+            position: relative;
+            overflow: hidden;
+            padding: 100px 0;
+            background: linear-gradient(to right, 
+                var(--gradient-start),
+                var(--gradient-middle),
+                var(--gradient-end));
+            color: white;
+        }
+
+        .contact-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
+
+        .contact-form {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: var(--secondary-color);
+            box-shadow: none;
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .contact-button {
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-middle));
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .contact-button:hover::before {
+            left: 100%;
+        }
+
+        .contact-button:hover {
+            background: linear-gradient(to right, var(--gradient-middle), var(--gradient-end));
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .contact-info {
+            margin-top: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateX(10px);
+        }
+
+        .contact-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--secondary-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s ease;
+        }
+
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: var(--secondary-color);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transition: transform 0.1s ease;
+        }
+
+        .cursor-blow {
+            animation: blow 0.5s ease-out forwards;
+        }
+
+        @keyframes blow {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(2); opacity: 0; }
+        }
+
+        /* Enhanced Hero Animation */
+        .hero-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to right, 
+                rgba(195, 20, 50, 0.9),
+                rgba(36, 11, 54, 0.9),
+                rgba(15, 95, 214, 0.9)
+            );
+            animation: gradientShift 8s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            animation: titleFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Enhanced Contact Form Animation */
+        .contact-form {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-form::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                45deg,
+                transparent,
+                rgba(255, 255, 255, 0.1),
+                transparent
+            );
+            transform: rotate(45deg);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .form-control {
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-control:focus {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        /* Service Card Link Animation */
+        .service-card {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-link {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(26, 35, 126, 0.9);
+            opacity: 0;
+            transition: all 0.3s ease;
+            transform: translateY(100%);
+        }
+
+        .service-card:hover .service-link {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .service-link a {
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border: 2px solid white;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .service-link a:hover {
+            background: white;
+            color: var(--primary-color);
+        }
+
+        /* Footer Styles */
+        footer {
+            background: linear-gradient(to right, 
+                var(--gradient-start),
+                var(--gradient-middle),
+                var(--gradient-end));
+            color: white;
+            padding: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
+
+        .social-links a {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0 10px;
+        }
+
+        .social-links a:hover {
+            background: white;
+            color: var(--primary-color);
+            transform: translateY(-5px);
+        }
+
+        footer h5 {
+            font-weight: 600;
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        footer h5::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: white;
+        }
+
+        footer p {
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        footer hr {
+            border-color: rgba(255, 255, 255, 0.1);
+            margin: 30px 0;
+        }
+
+        /* Modern Card Design */
+        .feature-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Modern Section Styling */
+        .section {
+            padding: 6rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, 
+                rgba(44, 62, 80, 0.05),
+                rgba(52, 152, 219, 0.05),
+                rgba(26, 188, 156, 0.05));
+            z-index: -1;
+        }
+
+        /* Text Gradient Effect */
+        .gradient-text {
+            background: linear-gradient(135deg, 
+                var(--primary-color),
+                var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: bold;
+        }
+
+        /* Modern Button Styles */
+        .btn-modern {
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .btn-modern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                rgba(255,255,255,0.2),
+                rgba(255,255,255,0));
+            transform: translateX(-100%);
+            transition: transform 0.5s ease;
+        }
+
+        .btn-modern:hover::before {
+            transform: translateX(100%);
+        }
+
+        /* Animated Border Effect */
+        .border-gradient {
+            position: relative;
+            border-radius: 16px;
+            padding: 3px;
+            background: linear-gradient(135deg,
+                var(--primary-color),
+                var(--secondary-color));
+        }
+
+        .border-gradient-inner {
+            background: white;
+            border-radius: 13px;
+            padding: 2rem;
+        }
+
+        /* Floating Elements Animation */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float-element {
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Modern Input Styling */
+        .form-control-modern {
+            border: 2px solid rgba(44, 62, 80, 0.1);
+            border-radius: 12px;
+            padding: 12px 20px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .form-control-modern:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(26, 188, 156, 0.1);
+            outline: none;
+        }
+
+        /* Scroll to Top Button */
+        #scrollToTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background-color: #1F2B46;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 9999;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            font-size: 24px;
+            opacity: 0;
+        }
+
+        #scrollToTop:hover {
+            background-color: #FFD600;
+            color: #000;
+            transform: translateY(-5px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        #scrollToTop::before {
+            content: '↑';
+            line-height: 1;
+            transition: transform 0.3s ease;
+        }
+
+        #scrollToTop:hover::before {
+            transform: translateY(-3px);
+        }
+
+        /* Section Spacing */
+        section {
+            scroll-margin-top: 100px;
+            position: relative;
+        }
+
+        .services-section {
+            position: relative;
+            overflow: hidden;
+            padding-top: 180px;
+            padding-bottom: 100px;
+            scroll-margin-top: 180px;
+            margin-top: -40px;
+        }
+
+        #services {
+            scroll-margin-top: 180px;
+            display: block;
+        }
+
+        .hero-section {
+            padding-top: calc(120px + 60px);
+            padding-bottom: 100px;
+            min-height: 100vh;
+        }
+
+        .about-section {
+            padding-top: 120px;
+            padding-bottom: 100px;
+        }
+
+        .products-section {
+            padding-top: 120px;
+            padding-bottom: 100px;
+        }
+
+        .contact-section {
+            padding-top: 120px;
+            padding-bottom: 100px;
+        }
+
+        /* Chatbot Button Styles */
+        .chatbot-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+        .chatbot-button:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .chatbot-button i {
+            color: white;
+            font-size: 24px;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-button:hover i {
+            transform: rotate(15deg);
+        }
+
+        .chatbot-pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(195, 20, 50, 0.3);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+                opacity: 0.5;
+            }
+            70% {
+                transform: scale(1.3);
+                opacity: 0;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Chatbot Window Styles */
+        .chatbot-window {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            width: 350px;
+            height: 500px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 998;
+            transform-origin: bottom right;
+            animation: scaleIn 0.3s ease forwards;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0.5);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .chatbot-header {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            padding: 20px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .chatbot-header h4 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+
+        .chatbot-close {
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: white;
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-close:hover {
+            transform: rotate(90deg);
+        }
+
+        .chatbot-messages {
+            flex-grow: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .chatbot-input {
+            padding: 15px;
+            border-top: 1px solid rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chatbot-input input {
+            flex-grow: 1;
+            padding: 10px 15px;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-input input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(195, 20, 50, 0.1);
+        }
+
+        .chatbot-send {
+            background: linear-gradient(135deg, var(--gradient-start), var(--gradient-end));
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chatbot-send:hover {
+            transform: scale(1.1);
+        }
+
+        /* Team Section Styles */
+        .team-section {
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+            background: var(--light-bg);
+        }
+
+        .team-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="40" fill="none" stroke="rgba(195,20,50,0.1)" stroke-width="2"/></svg>') repeat;
+            opacity: 0.1;
+            animation: rotate 20s linear infinite;
+        }
+
+        .team-section h2 {
+            color: var(--text-color);
+            position: relative;
+            margin-bottom: 3rem;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .team-section h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            transition: width 0.3s ease;
+        }
+
+        .team-section:hover h2::after {
+            width: 100px;
+        }
+
+        .team-card {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            margin-bottom: 30px;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .team-card:hover {
+            transform: translateY(-10px) rotateX(5deg) rotateY(5deg);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        }
+
+        .team-content {
+            padding: 25px;
+            text-align: center;
+            position: relative;
+            background: white;
+            transform-style: preserve-3d;
+        }
+
+        .team-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 15px 0 5px;
+            background: linear-gradient(to right, var(--gradient-start), var(--gradient-end));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transform: translateZ(20px);
+            transition: all 0.3s ease;
+        }
+
+        .team-position {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            transform: translateZ(15px);
+            transition: all 0.3s ease;
+        }
+
+        .team-description {
+            font-size: 0.9rem;
+            color: #777;
+            line-height: 1.6;
+            transform: translateZ(10px);
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .team-card:hover .team-description {
+            opacity: 1;
+        }
+
+        .team-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, 
+                rgba(195, 20, 50, 0.95),
+                rgba(15, 95, 214, 0.95));
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .team-social {
+            transform: translateY(20px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            gap: 15px;
+        }
+
+        .team-card:hover .team-social {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .team-social a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .team-social a:hover {
+            transform: translateY(-5px) scale(1.1);
+            background: white;
+            color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Keep existing animations */
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .team-card:nth-child(1) { animation: float 6s ease-in-out infinite; }
+        .team-card:nth-child(2) { animation: float 6s ease-in-out infinite 1.5s; }
+        .team-card:nth-child(3) { animation: float 6s ease-in-out infinite 3s; }
+        .team-card:nth-child(4) { animation: float 6s ease-in-out infinite 4.5s; }
+
+        /* Glowing effect */
+        .team-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(195,20,50,0.1) 0%, transparent 70%);
+            transform: rotate(30deg);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+        }
+
+        .team-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .team-card {
+                margin-bottom: 40px;
+            }
+            
+            .team-card:hover {
+                transform: translateY(-5px);
+            }
+            
+            .team-social {
+                gap: 10px;
+            }
+            
+            .team-social a {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+        }
+
+        .typing-indicator {
+            padding: 10px;
+            color: #666;
+            font-style: italic;
+            font-size: 0.9em;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .chatbot-window {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+        }
+
+        .chatbot-messages {
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            transition: all 0.3s ease;
+        }
+
+        .message:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        }
+
+        .bot-message {
+            position: relative;
+        }
+
+        .bot-message::before {
+            content: '🤖';
+            position: absolute;
+            left: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9em;
+        }
+
+        .user-message {
+            position: relative;
+        }
+
+        .user-message::after {
+            content: '👤';
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.9em;
+        }
+    </style>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div class="loader-wrapper">
+        <div class="loader"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">Duolink IT</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#home">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#about">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#products">Products</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#services">Services</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="home">
+        <div class="hero-rings">
+            <div class="ring"></div>
+            <div class="ring"></div>
+            <div class="ring"></div>
+        </div>
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 hero-content" data-aos="fade-right">
+                    <h1 class="hero-title">Innovative IT Solutions for Your Business</h1>
+                    <h2 class="company-name">
+                        <div class="main-text">
+                            <span>Duolink</span>
+                            <span>Technologies</span>
+                        </div>
+                        <div class="hover-text">
+                            <span>link</span>
+                            <span>connect</span>
+                            <span>secure</span>
+                        </div>
+                    </h2>
+                    <p class="hero-subtitle">We provide cutting-edge technology solutions to help your business grow and succeed in the digital age.</p>
+                    <a href="#contact" class="btn cta-button">Get Started</a>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="hero-image">
+                        <img src="1.png" alt="Hero Image" class="img-fluid rounded">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="100">
+                    <div class="stat-item">
+                        <div class="stat-number">500+</div>
+                        <div class="stat-text">Happy Clients</div>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="200">
+                    <div class="stat-item">
+                        <div class="stat-number">1000+</div>
+                        <div class="stat-text">Projects Completed</div>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="300">
+                    <div class="stat-item">
+                        <div class="stat-number">50+</div>
+                        <div class="stat-text">Team Members</div>
+                    </div>
+                </div>
+                <div class="col-md-3" data-aos="fade-up" data-aos-delay="400">
+                    <div class="stat-item">
+                        <div class="stat-number">10+</div>
+                        <div class="stat-text">Years Experience</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-5 about-section" id="about">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 about-content" data-aos="fade-right">
+                    <h2 class="about-title">About Duolink IT</h2>
+                    <p class="about-text">We are a team of passionate IT professionals dedicated to delivering exceptional technology solutions.</p>
+                    <p class="about-text">Founded in 2023, Duolink IT has been at the forefront of digital transformation, helping businesses leverage technology to achieve their goals. Our team consists of experienced developers, designers, and IT specialists who work together to create innovative solutions.</p>
+                </div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="about-card">
+                                <div class="icon-box">
+                                    <i class="fas fa-code text-white fa-2x"></i>
+                                </div>
+                                <h5 class="card-title">Custom Development</h5>
+                                <p class="card-text">Tailored software solutions for your specific business needs.</p>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="about-card">
+                                <div class="icon-box">
+                                    <i class="fas fa-cloud text-white fa-2x"></i>
+                                </div>
+                                <h5 class="card-title">Cloud Solutions</h5>
+                                <p class="card-text">Scalable and secure cloud infrastructure for your business.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="products" class="py-5">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Our Products</h2>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="2.png" alt="Product 1">
+                            <div class="product-overlay">
+                                <div class="product-badge">New</div>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Coming Soon</h3>
+                            <p class="product-description">Description of the product and its key features. Explain what makes this product special.</p>
+                            <ul class="product-features">
+                                <li><i class="fas fa-check-circle"></i> Feature 1</li>
+                                <li><i class="fas fa-check-circle"></i> Feature 2</li>
+                                <li><i class="fas fa-check-circle"></i> Feature 3</li>
+                            </ul>
+                            <button class="product-button">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="2.png" alt="Product 2">
+                            <div class="product-overlay">
+                                <div class="product-badge">Popular</div>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Coming Soon</h3>
+                            <p class="product-description">Description of the product and its key features. Explain what makes this product special.</p>
+                            <ul class="product-features">
+                                <li><i class="fas fa-check-circle"></i> Feature 1</li>
+                                <li><i class="fas fa-check-circle"></i> Feature 2</li>
+                                <li><i class="fas fa-check-circle"></i> Feature 3</li>
+                            </ul>
+                            <button class="product-button">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="2.png" alt="Product 3">
+                            <div class="product-overlay">
+                                <div class="product-badge">Featured</div>
+                            </div>
+                        </div>
+                        <div class="product-content">
+                            <h3 class="product-title">Coming Soon</h3>
+                            <p class="product-description">Description of the product and its key features. Explain what makes this product special.</p>
+                            <ul class="product-features">
+                                <li><i class="fas fa-check-circle"></i> Feature 1</li>
+                                <li><i class="fas fa-check-circle"></i> Feature 2</li>
+                                <li><i class="fas fa-check-circle"></i> Feature 3</li>
+                            </ul>
+                            <button class="product-button">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section" id="services">
+        <div class="container">
+            <h2 class="text-center mb-5 section-title" data-aos="fade-up">Our Services</h2>
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-code text-white fa-2x"></i>
+                        </div>
+                        <h5 class="service-title">Web Development</h5>
+                        <p class="service-description">Create stunning, responsive websites that engage your audience and drive business growth.</p>
+                        <div class="service-link">
+                            <a href="services/web-development.html">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-mobile-alt text-white fa-2x"></i>
+                        </div>
+                        <h5 class="service-title">Mobile App Development</h5>
+                        <p class="service-description">Transform your business with custom mobile applications that engage users and drive growth.</p>
+                        <div class="service-link">
+                            <a href="services/mobile-app-development.html">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line text-white fa-2x"></i>
+                        </div>
+                        <h5 class="service-title">Data Analytics</h5>
+                        <p class="service-description">Unlock valuable insights from your data to make informed business decisions.</p>
+                        <div class="service-link">
+                            <a href="services/data-analytics.html">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-brain text-white fa-2x"></i>
+                        </div>
+                        <h5 class="service-title">AI & Machine Learning</h5>
+                        <p class="service-description">Leverage cutting-edge AI and ML technologies to automate and optimize your business processes.</p>
+                        <div class="service-link">
+                            <a href="services/ai-ml.html">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-cloud text-white fa-2x"></i>
+                        </div>
+                        <h5 class="service-title">Cloud Services</h5>
+                        <p class="service-description">Scalable and secure cloud solutions to optimize your business operations and reduce costs.</p>
+                        <div class="service-link">
+                            <a href="services/cloud-services.html">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-card">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-alt text-white fa-2x"></i>
+                        </div>
+                        <h5 class="service-title">Cybersecurity</h5>
+                        <p class="service-description">Protect your business with comprehensive security solutions and threat management.</p>
+                        <div class="service-link">
+                            <a href="services/cybersecurity.html">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section" id="team">
+        <div class="container">
+            <h2 class="text-center mb-5" data-aos="fade-up">Our Team</h2>
+            <div class="row">
+                <!-- Team Member 1 -->
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="team1.jpg" alt="Team Member">
+                            <div class="team-overlay">
+                                <div class="team-social">
+                                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-content">
+                            <h4 class="team-name">John Doe</h4>
+                            <p class="team-position">CEO & Founder</p>
+                            <p class="team-description">10+ years of experience in IT solutions and business strategy.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 2 -->
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="team2.jpg" alt="Team Member">
+                            <div class="team-overlay">
+                                <div class="team-social">
+                                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-content">
+                            <h4 class="team-name">Jane Smith</h4>
+                            <p class="team-position">Technical Lead</p>
+                            <p class="team-description">Expert in web development and cloud architecture.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 3 -->
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="team3.jpg" alt="Team Member">
+                            <div class="team-overlay">
+                                <div class="team-social">
+                                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-content">
+                            <h4 class="team-name">Mike Johnson</h4>
+                            <p class="team-position">AI Specialist</p>
+                            <p class="team-description">Specialized in AI/ML solutions and data analytics.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Team Member 4 -->
+                <div class="col-lg-3 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                    <div class="team-card">
+                        <div class="team-image">
+                            <img src="team4.jpg" alt="Team Member">
+                            <div class="team-overlay">
+                                <div class="team-social">
+                                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                                    <a href="#"><i class="fab fa-twitter"></i></a>
+                                    <a href="#"><i class="fab fa-github"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="team-content">
+                            <h4 class="team-name">Sarah Wilson</h4>
+                            <p class="team-position">UX Designer</p>
+                            <p class="team-description">Creative designer with focus on user experience.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <h2 class="text-center mb-5 section-title" data-aos="fade-up">Contact Us</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="contact-form" data-aos="fade-up" data-aos-delay="100">
+                        <form action="mailto:duolink.in@gmail.com" method="POST" enctype="text/plain" onsubmit="return validateForm()">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Your Email" required>
+                                </div>
+                                <div class="col-12">
+                                    <input type="text" class="form-control" id="subject" name="subject" placeholder="Subject" required>
+                                </div>
+                                <div class="col-12">
+                                    <textarea class="form-control" id="message" name="message" rows="5" placeholder="Your Message" required></textarea>
+                                </div>
+                                <div class="col-12 text-center">
+                                    <button type="submit" class="btn contact-button">Send Message</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Add Chatbot Button -->
+                    <div class="chatbot-button" onclick="toggleChatbot()">
+                        <div class="chatbot-pulse"></div>
+                        <i class="fas fa-comments"></i>
+                    </div>
+
+                    <!-- Chatbot Window -->
+                    <div class="chatbot-window" id="chatbotWindow">
+                        <div class="chatbot-header">
+                            <h4><i class="fas fa-robot mr-2"></i> Duolink Assistant</h4>
+                            <span class="chatbot-close" onclick="toggleChatbot()">&times;</span>
+                        </div>
+                        <div class="chatbot-messages" id="chatbotMessages">
+                            <!-- Messages will be added here dynamically -->
+                        </div>
+                        <div class="chatbot-input">
+                            <input type="text" placeholder="Type your message..." id="chatbotInput" onkeypress="handleKeyPress(event)">
+                            <button class="chatbot-send" onclick="sendMessage()">
+                                <i class="fas fa-paper-plane"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="contact-info" data-aos="fade-up" data-aos-delay="200">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Address</h6>
+                                        <p>Salem</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Phone</h6>
+                                        <p>+91 88222 22200</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="contact-item">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <div>
+                                        <h6>Email</h6>
+                                        <p>duolink.in@gmail.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5>Duolink IT Solutions</h5>
+                    <p>Innovating the future of technology.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Duolink IT Solutions. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- AOS JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Chatbot JS -->
+    <script src="chat_storage.js"></script>
+    <!-- Custom JS -->
+    <script>
+    // Initialize AOS
+    AOS.init({
+        duration: 1000,
+        once: true,
+        offset: 100
+    });
+
+    // Chatbot functionality
+    function toggleChatbot() {
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const currentDisplay = window.getComputedStyle(chatbotWindow).display;
+        chatbotWindow.style.display = currentDisplay === 'none' ? 'flex' : 'none';
+        
+        if (currentDisplay === 'none') {
+            // Clear previous messages
+            document.getElementById('chatbotMessages').innerHTML = '';
+            // Add initial message when opening
+            addMessage('Hello! 👋 How can I assist you today? Type "help" to see what I can do!', 'bot');
+        }
+    }
+
+    function addMessage(message, sender) {
+        const messagesDiv = document.getElementById('chatbotMessages');
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${sender}-message`;
+        messageDiv.style.marginBottom = '10px';
+        messageDiv.style.padding = '10px 15px';
+        messageDiv.style.borderRadius = '15px';
+        messageDiv.style.maxWidth = '80%';
+        messageDiv.style.alignSelf = sender === 'bot' ? 'flex-start' : 'flex-end';
+        messageDiv.style.background = sender === 'bot' ? 
+            'rgba(255, 255, 255, 0.9)' : 
+            'linear-gradient(135deg, var(--gradient-start), var(--gradient-end))';
+        messageDiv.style.color = sender === 'bot' ? '#333' : 'white';
+        messageDiv.style.boxShadow = '0 2px 5px rgba(0,0,0,0.1)';
+        messageDiv.style.animation = 'fadeIn 0.3s ease-out';
+        messageDiv.style.whiteSpace = 'pre-line';
+        
+        // Add emoji support
+        message = message.replace(/:\)/g, '😊')
+            .replace(/:\(/g, '😔')
+            .replace(/:D/g, '😃')
+            .replace(/;\)/g, '😉');
+        
+        messageDiv.innerHTML = message;
+        messagesDiv.appendChild(messageDiv);
+        messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    function sendMessage() {
+        const input = document.getElementById('chatbotInput');
+        const message = input.value.trim();
+        
+        if (message) {
+            addMessage(message, 'user');
+            input.value = '';
+            
+            try {
+                // Process message and get response
+                const response = window.chatbot.processMessage(message);
+                
+                // Add typing indicator
+                const typingIndicator = document.createElement('div');
+                typingIndicator.className = 'typing-indicator';
+                typingIndicator.innerHTML = 'Duolink Bot is typing...';
+                document.getElementById('chatbotMessages').appendChild(typingIndicator);
+                
+                // Simulate typing delay
+                setTimeout(() => {
+                    typingIndicator.remove();
+                    addMessage(response, 'bot');
+                }, 1000 + Math.random() * 1000);
+            } catch (error) {
+                console.error('Chatbot error:', error);
+                addMessage('Sorry, I encountered an error. Please try again.', 'bot');
+            }
+        }
+    }
+
+    function handleKeyPress(event) {
+        if (event.key === 'Enter') {
+            sendMessage();
+        }
+    }
+
+    // Initialize chatbot when the page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        if (!window.chatbot) {
+            window.chatbot = new EnhancedChatbot();
+        }
+    });
+
+    // Rest of your existing custom JS
+    // ... (keep all the existing custom JS for other functionality)
+    </script>
+
+    <!-- Custom Cursor Elements -->
+    <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+    <!-- Scroll to Top Button -->
+    <button id="scrollToTop" aria-label="Scroll to top"></button>
+</body>
+</html> 
